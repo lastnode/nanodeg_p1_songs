@@ -4,7 +4,7 @@ songplay_table_drop = ""
 user_table_drop = ""
 song_table_drop = "DROP TABLE IF EXISTS songs"
 artist_table_drop = "DROP TABLE IF EXISTS artists"
-time_table_drop = ""
+time_table_drop = "DROP TABLE IF EXISTS time"
 
 # CREATE TABLES
 
@@ -32,7 +32,15 @@ artist_longitude double precision,
 PRIMARY KEY (artist_id))
 """)
 
-time_table_create = ("""
+time_table_create = ("""CREATE TABLE time (
+ts timestamp,
+hour int,
+day int,
+week_of_year int,
+month int,
+year int,
+weekday int,
+PRIMARY KEY (ts))
 """)
 
 # INSERT RECORDS
@@ -57,6 +65,9 @@ INSERT INTO artists (artist_id, artist_name, artist_location, artist_latitude, a
 
 
 time_table_insert = ("""
+
+INSERT INTO time (ts, hour, day, week_of_year, month, year, weekday) VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (ts) DO NOTHING
+
 """)
 
 # FIND SONGS
@@ -67,9 +78,9 @@ song_select = ("""
 # QUERY LISTS
 # Only enabling the queries we have completed so far.
 
-create_table_queries = [song_table_create,artist_table_create]
+create_table_queries = [song_table_create,artist_table_create,time_table_create]
 
-drop_table_queries = [song_table_drop,artist_table_drop]
+drop_table_queries = [song_table_drop,artist_table_drop,time_table_drop]
 
 # create_table_queries = [songplay_table_create, user_table_create, song_table_create, artist_table_create, time_table_create]
 # drop_table_queries = [songplay_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop]
