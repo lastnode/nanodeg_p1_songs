@@ -66,8 +66,6 @@ def process_log_file(cur, filepath):
     # insert songplay records
     for index, row in df.iterrows():
 
-        print(row.song)
-
         results = cur.execute(song_select_artist_song_ids, (row.song, row.artist, row.length))
         
         if results:
