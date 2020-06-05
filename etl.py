@@ -1,58 +1,86 @@
 import os
 import glob
 import psycopg2
-import pandas as pd
+import numpy as np
 from sql_queries import *
+import pandas as pd
 
+# Import some psycopg2 extensions so that we don't get numpy type errors like this when inserting into Postgres:
+# > can't adapt type 'numpy.int64'
+# Via this StackOverflow answer - https://stackoverflow.com/a/56766135
+from psycopg2.extensions import register_adapter, AsIs
+psycopg2.extensions.register_adapter(np.int64, psycopg2._psycopg.AsIs)
+
+conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
+cur = conn.cursor()
 
 def process_song_file(cur, filepath):
     # open song file
     df = pd.read_json(filepath, lines=True)
 
     # insert song record
-    song_data = song_data = df[['song_id', 'title', 'artist_id', 'year', 'duration']].tolist()
+    song_data = song_data = df[['song_id', 'title', 'artist_id', 'year', 'duration']].iloc[0].tolist()
     cur.execute(song_table_insert, song_data)
     
     # insert artist record
-    artist_data = df[['artist_id','artist_name','artist_location','artist_latitude','artist_longitude']].tolist()
+    artist_data = df[['artist_id','artist_name','artist_location','artist_latitude','artist_longitude']].iloc[0].tolist()
     cur.execute(artist_table_insert, artist_data)
 
 
 def process_log_file(cur, filepath):
     # open log file
-    df = 
+    df_log_data = pd.read_json(filepath, lines=True)
 
     # filter by NextSong action
-    df = 
+    df_nextsong = df_log_data[df_log_data['page'] == 'NextSong']
 
     # convert timestamp column to datetime
-    t = 
+    df_nextsong['ts'] = pd.to_datetime(df_nextsong['ts'], unit='ms')
     
     # insert time data records
-    time_data = 
-    column_labels = 
-    time_df = 
+    time_data = [df_nextsong['ts'], df_nextsong['ts'].dt.hour, df_nextsong['ts'].dt.day, df_nextsong['ts'].dt.weekofyear, df_nextsong['ts'].dt.month, df_nextsong['ts'].dt.year, df_nextsong['ts'].dt.weekday]
+
+    column_labels = ['ts', 'hour', 'day', 'week_of_year', 'month', 'year', 'weekday']
+
+    assert isinstance(time_data, list)
+    assert isinstance(column_labels, list)
+
+    time_dict = dict(zip(column_labels,time_data))
+
+    time_df = pd.DataFrame.from_dict(time_dict)
+
+    assert isinstance(time_df, pd.DataFrame)
 
     for i, row in time_df.iterrows():
         cur.execute(time_table_insert, list(row))
 
     # load user table
-    user_df = 
+    user_df = df_nextsong[['userId', 'firstName', 'lastName', 'gender', 'level']]
 
     # insert user records
     for i, row in user_df.iterrows():
         cur.execute(user_table_insert, row)
 
+    df = df_nextsong
+
     # insert songplay records
     for index, row in df.iterrows():
-        
-        # get songid and artistid from song and artist tables
-        results = cur.execute(song_select, (row.song, row.artist, row.length))
-        songid, artistid = results if results else None, None
 
-        # insert songplay record
-        songplay_data = 
-        cur.execute(songplay_table_insert, songplay_data)
+        print(row.song)
+
+        results = cur.execute(song_select_artist_song_ids, (row.song, row.artist, row.length))
+        
+        if results:
+            song_id, artist_id
+            print(song_id, artist_id) 
+        else: 
+            song_id = None
+            artist_id = None
+        
+    songplay_data = (row.ts, row.userId, row.level, song_id, artist_id, row.sessionId, row.location, row.userAgent)
+    cur.execute(songplay_table_insert, songplay_data)
+    conn.commit()
+        
 
 
 def process_data(cur, conn, filepath, func):
@@ -65,13 +93,13 @@ def process_data(cur, conn, filepath, func):
 
     # get total number of files found
     num_files = len(all_files)
-    print('{} files found in {}'.format(num_files, filepath))
+    #print('{} files found in {}'.format(num_files, filepath))
 
     # iterate over files and process
     for i, datafile in enumerate(all_files, 1):
         func(cur, datafile)
         conn.commit()
-        print('{}/{} files processed.'.format(i, num_files))
+        #print('{}/{} files processed.'.format(i, num_files))
 
 
 def main():

@@ -35,7 +35,7 @@ song_id text,
 title text, 
 artist_id text, 
 year int, 
-duration int,
+duration double precision,
 PRIMARY KEY (song_id))
 """)
 
@@ -97,12 +97,11 @@ INSERT INTO time (ts, hour, day, week_of_year, month, year, weekday) VALUES (%s,
 song_select_artist_song_ids = ("""
 
 SELECT songs.song_id, artists.artist_id
-FROM songs
-INNER JOIN artists ON songs.artist_id = artists.artist_id
-WHERE songs.title = %s and
+FROM songs, artists
+WHERE songs.artist_id = artists.artist_id and
+			songs.title = %s and
 			artists.artist_name = %s and
-			songs.duration = %s 
-			
+			songs.duration = %s 	
 """)
 
 # QUERY LISTS
