@@ -1,6 +1,6 @@
 # DROP TABLES
 
-songplay_table_drop = ""
+songplay_table_drop = "DROP TABLE IF EXISTS songplay"
 user_table_drop = "DROP TABLE IF EXISTS users"
 song_table_drop = "DROP TABLE IF EXISTS songs"
 artist_table_drop = "DROP TABLE IF EXISTS artists"
@@ -8,7 +8,17 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 
 # CREATE TABLES
 
-songplay_table_create = ("""
+songplay_table_create = ("""CREATE TABLE songplays (
+songplay_id serial,
+ts timestamp,
+user_id int,
+level text,
+song_id text, 
+artist_id text,
+session_id int,
+location text,
+user_agent text,
+PRIMARY KEY (songplay_id))
 """)
 
 user_table_create = ("""CREATE TABLE users (
@@ -52,6 +62,9 @@ PRIMARY KEY (ts))
 # INSERT RECORDS
 
 songplay_table_insert = ("""
+
+INSERT INTO songplays (ts, user_id, level, song_id, artist_id, session_id, location, user_agent) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ON CONFLICT (songplay_id) DO NOTHING
+
 """)
 
 user_table_insert = ("""
@@ -81,15 +94,20 @@ INSERT INTO time (ts, hour, day, week_of_year, month, year, weekday) VALUES (%s,
 
 # FIND SONGS
 
-song_select = ("""
+song_select_artist_song_ids = ("""
+
+SELECT songs.song_id, artists.artist_id
+FROM songs
+INNER JOIN artists ON songs.artist_id = artists.artist_id
+WHERE songs.title = %s and
+			artists.artist_name = %s and
+			songs.duration = %s 
+			
 """)
 
 # QUERY LISTS
 # Only enabling the queries we have completed so far.
 
-create_table_queries = [song_table_create,artist_table_create,time_table_create,user_table_create]
 
-drop_table_queries = [song_table_drop,artist_table_drop,time_table_drop,user_table_drop]
-
-# create_table_queries = [songplay_table_create, user_table_create, song_table_create, artist_table_create, time_table_create]
-# drop_table_queries = [songplay_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop]
+create_table_queries = [songplay_table_create, user_table_create, song_table_create, artist_table_create, time_table_create]
+drop_table_queries = [songplay_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop]
