@@ -20,10 +20,12 @@ def process_song_file(cur, filepath):
 
     # insert song record
     song_data = song_data = df[['song_id', 'title', 'artist_id', 'year', 'duration']].iloc[0].tolist()
+    assert isinstance(song_data, list)
     cur.execute(song_table_insert, song_data)
     
     # insert artist record
     artist_data = df[['artist_id','artist_name','artist_location','artist_latitude','artist_longitude']].iloc[0].tolist()
+    assert isinstance(artist_data, list)
     cur.execute(artist_table_insert, artist_data)
 
 
@@ -76,7 +78,7 @@ def process_log_file(cur, filepath):
         
         if results:
             song_id, artist_id
-            print(song_id, artist_id) 
+
         else: 
             song_id = None
             artist_id = None
@@ -93,6 +95,10 @@ def process_data(cur, conn, filepath, func):
         files = glob.glob(os.path.join(root,'*.json'))
 
         # Order files by modified date - https://stackoverflow.com/a/168424
+        # (So more recently modified files will show up later in the list.)
+
+        assert isinstance(files, list)
+
         files.sort(key=lambda x: os.path.getmtime(x))
         
         for f in files :
