@@ -34,6 +34,8 @@ def process_log_file(cur, filepath):
     # filter by NextSong action
     df_nextsong = df_log_data[df_log_data['page'] == 'NextSong']
 
+    assert isinstance(df_nextsong, pd.DataFrame)
+
     # convert timestamp column to datetime
     df_nextsong['ts'] = pd.to_datetime(df_nextsong['ts'], unit='ms')
     
@@ -57,14 +59,18 @@ def process_log_file(cur, filepath):
     # load user table
     user_df = df_nextsong[['userId', 'firstName', 'lastName', 'gender', 'level']]
 
+    assert isinstance(user_df, pd.DataFrame)
+
     # insert user records
     for i, row in user_df.iterrows():
         cur.execute(user_table_insert, row)
 
-    df = df_nextsong
+    df_songplays = df_nextsong
+
+    assert isinstance(df_songplays, pd.DataFrame)
 
     # insert songplay records
-    for index, row in df.iterrows():
+    for index, row in df_songplays.iterrows():
 
         results = cur.execute(song_select_artist_song_ids, (row.song, row.artist, row.length))
         
