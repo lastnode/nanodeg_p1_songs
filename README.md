@@ -8,7 +8,7 @@ Given that the primary purpose of this project is to show _what songs users are 
 ```
 songplay_table_create = ("""CREATE TABLE songplays (
 songplay_id serial,
-ts timestamp,
+start_time timestamp,
 user_id int,
 level text,
 song_id text, 
@@ -39,22 +39,22 @@ PRIMARY KEY (song_id))
 
 artist_table_create = ("""CREATE TABLE artists (
 artist_id text,
-artist_name text,
-artist_location text, 
-artist_latitude double precision, 
-artist_longitude double precision, 
+name text,
+location text, 
+latitude double precision, 
+longitude double precision, 
 PRIMARY KEY (artist_id))
 """)
 
 time_table_create = ("""CREATE TABLE time (
-ts timestamp,
+start_time timestamp,
 hour int,
 day int,
 week_of_year int,
 month int,
 year int,
 weekday int,
-PRIMARY KEY (ts))
+PRIMARY KEY (start_time))
 """)
 ```
 
