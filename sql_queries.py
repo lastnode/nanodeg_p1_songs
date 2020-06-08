@@ -7,14 +7,15 @@ artist_table_drop = "DROP TABLE IF EXISTS artists"
 time_table_drop = "DROP TABLE IF EXISTS time"
 
 # CREATE TABLES
+# Using REFERENCES - https://www.postgresql.org/docs/8.3/tutorial-fk.html
 
 songplay_table_create = ("""CREATE TABLE songplays (
 songplay_id serial,
-start_time timestamp,
-user_id int,
+start_time timestamp references time(start_time),
+user_id int references users(user_id),
 level text,
-song_id text, 
-artist_id text,
+song_id text references songs(song_id), 
+artist_id text references artists(artist_id),
 session_id int,
 location text,
 user_agent text,
@@ -105,5 +106,5 @@ WHERE songs.title = %s and
 
 # QUERY LISTS
 
-create_table_queries = [songplay_table_create, user_table_create, song_table_create, artist_table_create, time_table_create]
-drop_table_queries = [songplay_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop]
+create_table_queries = [user_table_create, song_table_create, artist_table_create, time_table_create,songplay_table_create]
+drop_table_queries = [user_table_drop, song_table_drop, artist_table_drop, time_table_drop, songplay_table_drop]

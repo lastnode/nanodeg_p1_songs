@@ -8,11 +8,11 @@ Given that the primary purpose of this project is to show _what songs users are 
 ```
 songplay_table_create = ("""CREATE TABLE songplays (
 songplay_id serial,
-start_time timestamp,
-user_id int,
+start_time timestamp references time(start_time),
+user_id int references users(user_id),
 level text,
-song_id text, 
-artist_id text,
+song_id text references songs(song_id), 
+artist_id text references artists(artist_id),
 session_id int,
 location text,
 user_agent text,
@@ -58,7 +58,9 @@ PRIMARY KEY (start_time))
 """)
 ```
 
-Given the denormalized data sources (log files) that this project is drawing information from here, the `etl.py` script uses Postgres' _UPSERT_ function (`ON CONFLICT (user_id) DO UPDATE SET `) to update rows with newer information if the new row being inserted matches each dimension table's primary key. The rationale behind this is that log and song file data that are read later via the `process_data` function are newer and therefore more accurate.
+
+## Normalization
+The data in this schema are in 2nd Normal Form, and  given the denormalized data sources (log files) that this project is drawing information from here, the `etl.py` script uses Postgres' _UPSERT_ function (`ON CONFLICT (user_id) DO UPDATE SET `) to update rows with newer information if the new row being inserted matches each dimension table's primary key. The rationale behind this is that log and song file data that are read later via the `process_data` function are newer and therefore more accurate.
 
 # ETL Scripts
 
