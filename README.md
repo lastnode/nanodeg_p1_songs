@@ -1,6 +1,6 @@
 # Introduction
 
-This ETL project looks to collect and present user activity information for a fictional music streaming service called Sparkify. To do this, data is gathered from song information and application log files, both stored in `.json` format, and then loaded into a Postgres SQL database where it can then be transformed to create a final `songplays` table. 
+This ETL project looks to collect and present user activity information for a fictional music streaming service called Sparkify. To do this, data is gathered from song information and application log files, both of which are stored in `.json` format, and then loaded into a Postgres SQL database where it can then be transformed to create a final `songplays` table that is optimized for queries on the song playback habits of users. 
 
 # Schema
 Given that the primary purpose of this project is to show _what songs users are listening to_, the `songplays` table is our fact table, with several other dimension tables feeding into it. Based on the relative simplicity of the relationships in this project, we have opted to organise these tables in a straightforward star schema.
@@ -60,7 +60,20 @@ PRIMARY KEY (start_time))
 
 Given the denormalized data sources (log files) that this project is drawing information from here, the `etl.py` script uses Postgres' _UPSERT_ function (`ON CONFLICT (user_id) DO UPDATE SET `) to update rows with newer information if the new row being inserted matches each dimension table's primary key. The rationale behind this is that log and song file data that are read later via the `process_data` function are newer and therefore more accurate.
 
-## Example Queries 
+# ETL Scripts
+
+## Primary
+There are two primary scripts that will need to be run for this project, in the order that they need to be run.
+
+1) `create_tables.py`  - This script drops any existing tables in the `sparkifydb` and creates the necesary tables for our `etl.py` script to run. `etl.py` will not execute correctly if you first do not run this script.
+
+2) `etl.py` - This is the main ETL script for the project. It reads the data from the `data/` folder and inserts it into the `sparkifydb` database.
+
+## Secondary
+3) `sql_queries.py` - This is a module that both `create_tables.py` and `etly.py` load to run the SQL queries needed to both set up the tables required by this project, and then insert data into them. This script is not executed directly.
+
+
+# Example Queries 
 
 #### Which hour of the day are users starting to play the most songs?
 
