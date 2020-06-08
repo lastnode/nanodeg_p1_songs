@@ -10,7 +10,7 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 
 songplay_table_create = ("""CREATE TABLE songplays (
 songplay_id serial,
-ts timestamp,
+start_time timestamp,
 user_id int,
 level text,
 song_id text, 
@@ -41,29 +41,29 @@ PRIMARY KEY (song_id))
 
 artist_table_create = ("""CREATE TABLE artists (
 artist_id text,
-artist_name text,
-artist_location text, 
-artist_latitude double precision, 
-artist_longitude double precision, 
+name text,
+location text, 
+latitude double precision, 
+longitude double precision, 
 PRIMARY KEY (artist_id))
 """)
 
 time_table_create = ("""CREATE TABLE time (
-ts timestamp,
+start_time timestamp,
 hour int,
 day int,
 week_of_year int,
 month int,
 year int,
 weekday int,
-PRIMARY KEY (ts))
+PRIMARY KEY (start_time))
 """)
 
 # INSERT RECORDS
 
 songplay_table_insert = ("""
 
-INSERT INTO songplays (ts, user_id, level, song_id, artist_id, session_id, location, user_agent) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ON CONFLICT (songplay_id) DO UPDATE SET ts=EXCLUDED.ts, user_id=EXCLUDED.user_id, level=EXCLUDED.level, song_id=EXCLUDED.song_id, artist_id = EXCLUDED.artist_id, session_id=EXCLUDED.session_id, location=EXCLUDED.location, user_agent=EXCLUDED.user_agent
+INSERT INTO songplays (start_time, user_id, level, song_id, artist_id, session_id, location, user_agent) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ON CONFLICT (songplay_id) DO UPDATE SET start_time=EXCLUDED.start_time, user_id=EXCLUDED.user_id, level=EXCLUDED.level, song_id=EXCLUDED.song_id, artist_id = EXCLUDED.artist_id, session_id=EXCLUDED.session_id, location=EXCLUDED.location, user_agent=EXCLUDED.user_agent
 
 """)
 
@@ -80,14 +80,14 @@ INSERT INTO songs (song_id, title, artist_id, year, duration) VALUES (%s, %s, %s
 
 artist_table_insert = ("""
 
-INSERT INTO artists (artist_id, artist_name, artist_location, artist_latitude, artist_longitude) VALUES (%s, %s, %s, %s, %s) ON CONFLICT (artist_id) DO UPDATE SET artist_id=EXCLUDED.artist_id, artist_name=EXCLUDED.artist_name, artist_location=EXCLUDED.artist_location, artist_latitude=EXCLUDED.artist_latitude, artist_longitude=EXCLUDED.artist_longitude
+INSERT INTO artists (artist_id, name, location, latitude, longitude) VALUES (%s, %s, %s, %s, %s) ON CONFLICT (artist_id) DO UPDATE SET artist_id=EXCLUDED.artist_id, name=EXCLUDED.name, location=EXCLUDED.location, latitude=EXCLUDED.latitude, longitude=EXCLUDED.longitude
 
 """)
 
 
 time_table_insert = ("""
 
-INSERT INTO time (ts, hour, day, week_of_year, month, year, weekday) VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (ts) DO UPDATE SET hour=EXCLUDED.hour, day=EXCLUDED.day, week_of_year=EXCLUDED.week_of_year, month=EXCLUDED.month, year=EXCLUDED.year, weekday=EXCLUDED.weekday 
+INSERT INTO time (start_time, hour, day, week_of_year, month, year, weekday) VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (start_time) DO UPDATE SET hour=EXCLUDED.hour, day=EXCLUDED.day, week_of_year=EXCLUDED.week_of_year, month=EXCLUDED.month, year=EXCLUDED.year, weekday=EXCLUDED.weekday 
 
 """)
 
@@ -99,7 +99,7 @@ SELECT songs.song_id, artists.artist_id
 FROM songs
 JOIN artists on songs.artist_id = artists.artist_id
 WHERE songs.title = %s and
-			artists.artist_name = %s and
+			artists.name = %s and
 			songs.duration = %s
 """)
 
