@@ -10,7 +10,7 @@ This ETL project looks to collect and present user activity information for a fi
 - etl.py - the main ETL script that reads the .json files and inserts them into the database
 - sql_queries.py - a module that create_tables.py and etl.py load to run the SQL queries
 - etl.ipynb -- the preliminary Jupyter notebook that was used to develop etl.py
-- test.ipynb - a Jupyter notebook that can be run to test the data in the db
+- test.ipynb -- a Jupyter notebook that can be run to test the data in the db
 ```
 
 # ETL Scripts
@@ -25,7 +25,7 @@ There are two primary scripts that will need to be run for this project, in the 
 ## Secondary
 3) `sql_queries.py` - This is a module that both `create_tables.py` and `etly.py` load to run the SQL queries needed to both set up the tables required by this project, and then insert data into them. This script is not executed directly.
 
-4) `test.ipynb` - This is a [Jupyter](https://jupyter.org/)] notebook that will test that all the databases have been created and that data has been correctly inserted into them.
+4) `test.ipynb` - This is a [Jupyter](https://jupyter.org/) notebook that will test that all the databases have been created and that data has been correctly inserted into them.
 
 # Database Schema
 Given that the primary purpose of this project is to show _what songs users are listening to_, the `songplays` table is our fact table, with several other dimension tables feeding into it. Based on the relative simplicity of the relationships in this project, we have opted to organise these tables in a straightforward star schema.
@@ -84,7 +84,7 @@ PRIMARY KEY (start_time))
 ```
 
 
-## Normalization
+## Normalization and Error-checking
 
 ### Postgres UPSERT
 This schema is in 2nd Normal Form. However, the source data are in denormalized datasets (log files). Thus, the `etl.py` script uses [Postgres' _UPSERT_ function](https://wiki.postgresql.org/wiki/UPSERT) (`ON CONFLICT (user_id) DO UPDATE SET`) to only UPDATE (and **not** INSERT) rows with newer information if the row being inserted matches each dimension table's primary key. 
