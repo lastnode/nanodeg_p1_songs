@@ -1,6 +1,6 @@
 # Introduction
 
-This ETL project looks to collect and present user activity information for a fictional music streaming service called Sparkify. To do this, data is gathered from song information and application log files, which in turn were generated from the [Million Song Dataset](http://millionsongdataset.com/) and from [eventsim](https://github.com/Interana/eventsim) respectively and given to us. The data in both these datasets are sstored in `.json` format, so they are first loaded into [pandas](https://pandas.pydata.org/) dataframes before being inserted into a Postgres SQL database where they can then be transformed to create a final `songplays` table that is optimized for queries on the song playback habits of users. 
+This ETL project looks to collect and present user activity information for a fictional music streaming service called Sparkify. To do this, data is gathered from song information and application `.json` log files (which were generated from the [Million Song Dataset](http://millionsongdataset.com/) and from [eventsim](https://github.com/Interana/eventsim) respectively and given to us). The data in these datasets are first loaded into [pandas](https://pandas.pydata.org/) dataframes so they can be filtered, before being inserted into a Postgres SQL database where they are then transformed to create a final `songplays` table that is optimized for queries on the song playback habits of users. 
 
 # Schema
 Given that the primary purpose of this project is to show _what songs users are listening to_, the `songplays` table is our fact table, with several other dimension tables feeding into it. Based on the relative simplicity of the relationships in this project, we have opted to organise these tables in a straightforward star schema.
@@ -138,7 +138,7 @@ There are two primary scripts that will need to be run for this project, in the 
 ```
 
 
-#### What are the most popular browsers / user agents among users who have played songs?
+#### What are the most popular user agents among users who have played songs?
 
 `select user_agent, count(songplay_id) from songplays group by user_agent order by count(songplay_id) desc;`
 
@@ -161,6 +161,12 @@ There are two primary scripts that will need to be run for this project, in the 
  Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0                                                                           |     1
  "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36"                             |     1
 ```
+
+#### What are the most popular browsaers among users who have played songs?
+
+
+
+
 
 #### What are the most popular operating systems among users who have played songs?
 
