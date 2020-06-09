@@ -2,7 +2,32 @@
 
 This ETL project looks to collect and present user activity information for a fictional music streaming service called Sparkify. To do this, data is gathered from song information and application `.json` log files (which were generated from the [Million Song Dataset](http://millionsongdataset.com/) and from [eventsim](https://github.com/Interana/eventsim) respectively and given to us). The data in these datasets are first loaded into [pandas](https://pandas.pydata.org/) dataframes so they can be filtered, before being inserted into a Postgres SQL database where they are then transformed to create a final `songplays` table that is optimized for queries on the song playback habits of users. 
 
-# Schema
+# Files
+```
+data/ -- the folder with song information and user log information, all in .json format
+README.md -- this file
+create_tables.py -- creates tables necessary for ETL script
+etl.py - the main ETL script that reads the .json files and inserts them into the database
+sql_queries.py - a module that etl.py loads to run the SQL queries
+etl.ipynb -- the preliminary Jupyter notebook that was used to develop etl.py
+test.ipynb - a Jupyter notebook that can be run to test that the db has been created and that information has been inserted into them
+```
+
+# ETL Scripts
+
+## Primary
+There are two primary scripts that will need to be run for this project, in the order that they need to be run.
+
+1) `create_tables.py`  - This script drops any existing tables in the `sparkifydb` and creates the necesary tables for our `etl.py` script to run. `etl.py` will not execute correctly if you first do not run this script.
+
+2) `etl.py` - This is the main ETL script for the project. It reads the data from the `data/` folder and inserts it into the `sparkifydb` database.
+
+## Secondary
+3) `sql_queries.py` - This is a module that both `create_tables.py` and `etly.py` load to run the SQL queries needed to both set up the tables required by this project, and then insert data into them. This script is not executed directly.
+
+4) `test.ipynb` - This is a [Jupyter[(https://jupyter.org/)] notebook that will test that all the databases have been created and that data has been correctly inserted into them.
+
+# Database Schema
 Given that the primary purpose of this project is to show _what songs users are listening to_, the `songplays` table is our fact table, with several other dimension tables feeding into it. Based on the relative simplicity of the relationships in this project, we have opted to organise these tables in a straightforward star schema.
 
 ```
@@ -72,19 +97,7 @@ The rationale behind this is that log and song file data that are read later via
 
 Also, since we're reading `.json` files via pandas in `etl.py`, we we use Python's [assert statement](https://www.programiz.com/python-programming/assert-statement) to check types (lists, dataframes) throughout the ETL process. This will make it easier to debug data quality issues if they ever arise.
 
-# ETL Scripts
 
-## Primary
-There are two primary scripts that will need to be run for this project, in the order that they need to be run.
-
-1) `create_tables.py`  - This script drops any existing tables in the `sparkifydb` and creates the necesary tables for our `etl.py` script to run. `etl.py` will not execute correctly if you first do not run this script.
-
-2) `etl.py` - This is the main ETL script for the project. It reads the data from the `data/` folder and inserts it into the `sparkifydb` database.
-
-## Secondary
-3) `sql_queries.py` - This is a module that both `create_tables.py` and `etly.py` load to run the SQL queries needed to both set up the tables required by this project, and then insert data into them. This script is not executed directly.
-
-4) `test.ipynb` - This is a [Jupyter[(https://jupyter.org/)] notebook that will test that all the databases have been created and that data has been correctly inserted into them.
 
 
 # Example Queries 
