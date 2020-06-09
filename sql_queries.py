@@ -7,7 +7,7 @@ artist_table_drop = "DROP TABLE IF EXISTS artists"
 time_table_drop = "DROP TABLE IF EXISTS time"
 
 # CREATE TABLES
-# Using REFERENCES - https://www.postgresql.org/docs/8.3/tutorial-fk.html
+# Using Postgres' REFERENCES - https://www.postgresql.org/docs/8.3/tutorial-fk.html
 
 songplay_table_create = ("""CREATE TABLE songplays (
 songplay_id serial,
