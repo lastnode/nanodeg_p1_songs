@@ -11,8 +11,17 @@ import pandas as pd
 from psycopg2.extensions import register_adapter, AsIs
 psycopg2.extensions.register_adapter(np.int64, psycopg2._psycopg.AsIs)
 
-conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
-cur = conn.cursor()
+try:
+    conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
+except psycopg2.Error as error: 
+    print("Error: Could not make connection to the Postgres database.")
+    print(error)
+
+try:
+    cur = conn.cursor()
+except psycopg2.Error as error: 
+    print("Error: Could not get cursor.")
+    print(error)
 
 def process_song_file(cur, filepath):
     # open song file

@@ -4,9 +4,19 @@ from sql_queries import create_table_queries, drop_table_queries
 
 def create_database():
     # connect to default database
-    conn = psycopg2.connect("host=127.0.0.1 dbname=postgres user=student password=student")
+    try:
+        conn = psycopg2.connect("host=127.0.0.1 dbname=postgres user=student password=student")
+    except psycopg2.Error as error: 
+        print("Error: Could not make connection to the Postgres database.")
+        print(error)
+
     conn.set_session(autocommit=True)
-    cur = conn.cursor()
+    
+    try:
+        cur = conn.cursor()
+    except psycopg2.Error as error: 
+        print("Error: Could not get cursor.")
+        print(error)
     
     # create sparkify database with UTF8 encoding
     cur.execute("DROP DATABASE IF EXISTS sparkifydb")
