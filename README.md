@@ -84,6 +84,8 @@ There are two primary scripts that will need to be run for this project, in the 
 ## Secondary
 3) `sql_queries.py` - This is a module that both `create_tables.py` and `etly.py` load to run the SQL queries needed to both set up the tables required by this project, and then insert data into them. This script is not executed directly.
 
+4) `test.ipynb` - This is a [Jupyter[(https://jupyter.org/)] notebook that will test that all the databases have been created and that data has been correctly inserted into them.
+
 
 # Example Queries 
 
