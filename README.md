@@ -118,7 +118,8 @@ There are two primary scripts that will need to be run for this project, in the 
    21 |   280
    22 |   217
    23 |   201
-(24 rows)```
+(24 rows)
+```
 
 #### Which 50 users have started listening to the most songs?
 
@@ -187,7 +188,7 @@ There are two primary scripts that will need to be run for this project, in the 
 `select user_agent, count(songplay_id) from songplays group by user_agent order by count(songplay_id) desc;`
 
 ```
-                                                                 user_agent                                                                  | count 
+user_agent                                                                  | count 
 ---------------------------------------------------------------------------------------------------------------------------------------------+-------
  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36"                  |   971
  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.78.2 (KHTML, like Gecko) Version/7.0.6 Safari/537.78.2"                     |   708
