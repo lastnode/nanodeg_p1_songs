@@ -8,7 +8,7 @@ This ETL project looks to collect and present user activity information for a fi
 - README.md -- this file
 - create_tables.py -- creates tables necessary for ETL script
 - etl.py - the main ETL script that reads the .json files and inserts them into the database
-- sql_queries.py - a module that etl.py loads to run the SQL queries
+- sql_queries.py - a module that create_tables.py and etl.py load to run the SQL queries
 - etl.ipynb -- the preliminary Jupyter notebook that was used to develop etl.py
 - test.ipynb - a Jupyter notebook that can be run to test the data in the db
 ```
