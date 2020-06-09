@@ -11,6 +11,8 @@ import pandas as pd
 from psycopg2.extensions import register_adapter, AsIs
 psycopg2.extensions.register_adapter(np.int64, psycopg2._psycopg.AsIs)
 
+## Database connection error handling code adapted from Udacity Data Engineering Nano Degree exercises.
+
 try:
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
 except psycopg2.Error as error: 
