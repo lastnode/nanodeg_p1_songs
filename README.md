@@ -94,47 +94,91 @@ There are two primary scripts that will need to be run for this project, in the 
 ```
  hour | count 
 ------+-------
-   19 |     2
-   21 |     1
-   20 |     1
-   22 |     3
-   23 |    23
-(5 rows)
-```
+    0 |   155
+    1 |   154
+    2 |   117
+    3 |   109
+    4 |   136
+    5 |   162
+    6 |   183
+    7 |   179
+    8 |   207
+    9 |   270
+   10 |   312
+   11 |   336
+   12 |   308
+   13 |   324
+   14 |   432
+   15 |   477
+   16 |   542
+   17 |   494
+   18 |   498
+   19 |   367
+   20 |   360
+   21 |   280
+   22 |   217
+   23 |   201
+(24 rows)```
 
-#### Which users have started playing the most songs?
+#### Which 50 users have started listening to the most songs?
 
 `select user_id, count(songplay_id) from songplays group by user_id;`
 
 ```
  user_id | count 
 ---------+-------
-      52 |     1
-      70 |     1
-      80 |     3
-     101 |     1
-      97 |     1
-      11 |     1
-      44 |     1
-      42 |     1
-      15 |     1
-      26 |     1
-      95 |     1
-       3 |     1
-      37 |     1
-       5 |     1
-      54 |     1
-      83 |     1
-      35 |     1
-       6 |     1
-      86 |     1
-      89 |     1
-      12 |     1
-      24 |     1
-      25 |     2
-      49 |     3
-      47 |     1
-(25 rows)
+      49 |   689
+      80 |   665
+      97 |   557
+      15 |   463
+      44 |   397
+      29 |   346
+      24 |   321
+      73 |   289
+      88 |   270
+      36 |   248
+      16 |   223
+      95 |   213
+      85 |   179
+      30 |   178
+      25 |   169
+      42 |   140
+      58 |   140
+      26 |   114
+      82 |    87
+      72 |    72
+      32 |    56
+     101 |    55
+      50 |    48
+      86 |    45
+      66 |    37
+      37 |    34
+      70 |    33
+      69 |    29
+      10 |    28
+      54 |    27
+      83 |    27
+      92 |    27
+       8 |    27
+      67 |    25
+      61 |    24
+       6 |    23
+      14 |    22
+      53 |    20
+      63 |    20
+      33 |    20
+     100 |    19
+      60 |    18
+      75 |    18
+      52 |    17
+      65 |    17
+       9 |    16
+      35 |    16
+      55 |    15
+      51 |    15
+      78 |    14
+(50 rows)
+
 ```
 
 
@@ -145,27 +189,48 @@ There are two primary scripts that will need to be run for this project, in the 
 ```
                                                                  user_agent                                                                  | count 
 ---------------------------------------------------------------------------------------------------------------------------------------------+-------
- Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0                                                                    |     4
- "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36"                             |     4
- "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36"                  |     4
- Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0                                                                           |     3
- "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.78.2 (KHTML, like Gecko) Version/7.0.6 Safari/537.78.2"                     |     3
- "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36"                                  |     2
- "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/36.0.1985.125 Chrome/36.0.1985.125 Safari/537.36"   |     2
- "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36"                  |     1
- "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36"                   |     1
- "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.77.4 (KHTML, like Gecko) Version/7.0.5 Safari/537.77.4"                     |     1
- "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53" |     1
- Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:31.0) Gecko/20100101 Firefox/31.0                                                           |     1
- Mozilla/5.0 (Windows NT 6.1; WOW64; rv:32.0) Gecko/20100101 Firefox/32.0                                                                    |     1
- Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0                                                                           |     1
- "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36"                             |     1
+ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36"                  |   971
+ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.78.2 (KHTML, like Gecko) Version/7.0.6 Safari/537.78.2"                     |   708
+ Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0                                                                           |   696
+ "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/36.0.1985.125 Chrome/36.0.1985.125 Safari/537.36"   |   577
+ "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36"                                  |   573
+ Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:31.0) Gecko/20100101 Firefox/31.0                                                           |   443
+ "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36"                             |   427
+ "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36"                             |   419
+ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.77.4 (KHTML, like Gecko) Version/7.0.5 Safari/537.77.4"                     |   319
+ Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0                                                                    |   310
+ "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36"                                    |   259
+ "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53" |   228
+ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36"                 |   179
+ "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36"                             |   148
+ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36"                  |   111
+ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36"                   |    87
+ Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:30.0) Gecko/20100101 Firefox/30.0                                                           |    72
+ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36"                   |    45
+ Mozilla/5.0 (Windows NT 6.1; WOW64; rv:32.0) Gecko/20100101 Firefox/32.0                                                                    |    30
+ "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36"                             |    27
+ Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0                                                                           |    26
+ "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.103 Safari/537.36"                             |    20
+ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/537.75.14"                   |    18
+ Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko                                                                        |    16
+ "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.102 Safari/537.36"                             |    15
+ "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D201 Safari/9537.53" |    11
+ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36"                  |    10
+ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/538.46 (KHTML, like Gecko) Version/8.0 Safari/538.46"                            |    10
+ "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36"                             |    10
+ Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)                                                                     |     9
+ "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36"                                    |     9
+ Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:31.0) Gecko/20100101 Firefox/31.0                                                           |     9
+ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.59.10 (KHTML, like Gecko) Version/5.1.9 Safari/534.59.10"                   |     8
+ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36"                  |     5
+ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/537.75.14"                   |     5
+ Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0                                                                        |     3
+ Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)                                                                             |     2
+ "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36"                              |     2
+ "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36"                             |     2
+ Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko                                                                        |     1
+(40 rows)                           |     1
 ```
-
-#### What are the most popular browsaers among users who have played songs?
-
-
-
 
 
 #### What are the most popular operating systems among users who have played songs?
@@ -183,5 +248,6 @@ from songplays;
 ```
  windows_sum | linux_sum | mac_sum | iphone_sum | anrdoid_sum 
 -------------+-----------+---------+------------+-------------
-          14 |         4 |      12 |          1 |           0
+        2428 |      1153 |    3239 |        239 |           0
+(1 row)
 ```
