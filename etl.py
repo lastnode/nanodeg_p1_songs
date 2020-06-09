@@ -85,10 +85,11 @@ def process_log_file(cur, filepath):
     # insert songplay records
     for index, row in df_songplays.iterrows():
 
-        results = cur.execute(song_select_artist_song_ids, (row.song, row.artist, row.length))
-        
+        cur.execute(song_select_artist_song_ids, (row.song, row.artist, row.length))
+        results = cur.fetchone()
+                
         if results:
-            song_id, artist_id
+            song_id, artist_id = results
 
         else: 
             song_id = None
