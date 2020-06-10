@@ -4,8 +4,6 @@ import psycopg2
 import numpy as np
 import pandas as pd
 
-from sql_queries import *
-
 # Import some psycopg2 extensions so that we don't get numpy type errors:
 # > can't adapt type 'numpy.int64' — when inserting data into Postgres.
 # Via this StackOverflow answer - https://stackoverflow.com/a/56766135
@@ -13,20 +11,7 @@ from sql_queries import *
 from psycopg2.extensions import register_adapter, AsIs
 psycopg2.extensions.register_adapter(np.int64, psycopg2._psycopg.AsIs)
 
-# DB connection error handling code adapted from Udacity exercises.
-
-try:
-    conn = psycopg2.connect("host=127.0.0.1 dbname=studentdb user=student password=student")
-except psycopg2.Error as error: 
-    print("Error: Could not make connection to the Postgres database.")
-    print(error)
-
-try:
-    cur = conn.cursor()
-except psycopg2.Error as error:
-    print("Error: Could not get cursor.")
-    print(error)
-
+from sql_queries import *
 
 def process_song_file(cur, filepath):
     # open song file
@@ -100,13 +85,12 @@ def process_log_file(cur, filepath):
         if results:
             song_id, artist_id = results
 
-        else: 
+        else:
             song_id = None
             artist_id = None
 
         songplay_data = (row.ts, row.userId, row.level, song_id, artist_id, row.sessionId, row.location, row.userAgent)
         cur.execute(songplay_table_insert, songplay_data)
-        conn.commit()
 
 
 def process_data(cur, conn, filepath, func):
@@ -137,8 +121,19 @@ def process_data(cur, conn, filepath, func):
 
 
 def main():
-    conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
-    cur = conn.cursor()
+    # DB connection error handling code adapted from Udacity exercises.
+
+    try:
+        conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
+    except psycopg2.Error as error: 
+        print("Error: Could not make connection to the Postgres database.")
+        print(error)
+
+    try:
+        cur = conn.cursor()
+    except psycopg2.Error as error:
+        print("Error: Could not get cursor.")
+        print(error)
 
     process_data(cur, conn, filepath='data/song_data', func=process_song_file)
     process_data(cur, conn, filepath='data/log_data', func=process_log_file)
