@@ -1,3 +1,4 @@
+from sql_queries import *
 import os
 import glob
 import psycopg2
@@ -11,9 +12,22 @@ import pandas as pd
 from psycopg2.extensions import register_adapter, AsIs
 psycopg2.extensions.register_adapter(np.int64, psycopg2._psycopg.AsIs)
 
-from sql_queries import *
 
 def process_song_file(cur, filepath):
+    """
+    Takes a single .json file with song information, loads it into a pandas
+    dataframe, and inserts data from it into the following tables in Postgres:
+    `songs`
+    `artists`
+
+    Paramters:
+    cur (psycopg2.cursor()) - cursor of the (Postgres) `sparkifydb` db
+    filepath (str)  - the filepath of the file we are reading
+
+    Returns:
+    None
+    """
+
     # open song file
     df = pd.read_json(filepath, lines=True)
 
@@ -29,6 +43,22 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """
+    Takes a single .json file with user activity information, loads it into a 
+    pandas dataframe to filder by the `NextSong` event and then inserts data 
+    from it into the following tables in Postgres:
+    `time`
+    `users`
+    `songplays`
+
+    Paramters:
+    cur (psycopg2.cursor()) - cursor of the (Postgres) `sparkifydb` db
+    filepath (str)  - the filepath of the file we are reading
+
+    Returns:
+    None
+    """
+
     # open log file
     df_log_data = pd.read_json(filepath, lines=True)
 
@@ -54,7 +84,7 @@ def process_log_file(cur, filepath):
     assert isinstance(time_data, list)
     assert isinstance(column_labels, list)
 
-    time_dict = dict(zip(column_labels,time_data))
+    time_dict = dict(zip(column_labels, time_data))
 
     time_df = pd.DataFrame.from_dict(time_dict)
 
@@ -94,6 +124,22 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+    """
+    Iterates through all the directories and files found under the provided
+    `filepath` parametr and passes the individual files in the folder to the 
+    function that is passed in via the `func` paramater.
+    
+    
+    Paramters:
+    cur (psycopg2.cursor()) - cursor of the (Postgres) `sparkifydb` db
+    conn (psycopg2.connect()) - connection to the (Postgres) `sparkifydb` db
+    filepath (str)  - the root directory of the files we are processing
+    func (function) - the function being used to process each type of log file
+
+    Returns:
+    None
+    """
+
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
