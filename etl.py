@@ -32,20 +32,22 @@ def process_song_file(cur, filepath):
     df = pd.read_json(filepath, lines=True)
 
     # insert song record
-    song_data = df[['song_id', 'title', 'artist_id', 'year', 'duration']].iloc[0].tolist()
+    song_data = df[['song_id', 'title', 'artist_id',
+                    'year', 'duration']].iloc[0].tolist()
     assert isinstance(song_data, list)
     cur.execute(song_table_insert, song_data)
 
     # insert artist record
-    artist_data = df[['artist_id','artist_name','artist_location','artist_latitude','artist_longitude']].iloc[0].tolist()
+    artist_data = df[['artist_id', 'artist_name', 'artist_location',
+                      'artist_latitude', 'artist_longitude']].iloc[0].tolist()
     assert isinstance(artist_data, list)
     cur.execute(artist_table_insert, artist_data)
 
 
 def process_log_file(cur, filepath):
     """
-    Takes a single .json file with user activity information, loads it into a 
-    pandas dataframe to filder by the `NextSong` event and then inserts data 
+    Takes a single .json file with user activity information, loads it into a
+    pandas dataframe to filter by the `NextSong` event and then inserts data
     from it into the following tables in Postgres:
     `time`
     `users`
@@ -77,9 +79,13 @@ def process_log_file(cur, filepath):
     print(df_nextsong['ts'])
 
     # insert time data records
-    time_data = [df_nextsong['ts'], df_nextsong['ts'].dt.hour, df_nextsong['ts'].dt.day, df_nextsong['ts'].dt.weekofyear, df_nextsong['ts'].dt.month, df_nextsong['ts'].dt.year, df_nextsong['ts'].dt.weekday]
+    time_data = [df_nextsong['ts'], df_nextsong['ts'].dt.hour,
+                 df_nextsong['ts'].dt.day, df_nextsong['ts'].dt.weekofyear,
+                 df_nextsong['ts'].dt.month, df_nextsong['ts'].dt.year,
+                 df_nextsong['ts'].dt.weekday]
 
-    column_labels = ['ts', 'hour', 'day', 'week_of_year', 'month', 'year', 'weekday']
+    column_labels = ['ts', 'hour', 'day', 'week_of_year',
+                     'month', 'year', 'weekday']
 
     assert isinstance(time_data, list)
     assert isinstance(column_labels, list)
@@ -94,7 +100,8 @@ def process_log_file(cur, filepath):
         cur.execute(time_table_insert, list(row))
 
     # load user table
-    user_df = df_nextsong[['userId', 'firstName', 'lastName', 'gender', 'level']]
+    user_df = df_nextsong[['userId', 'firstName', 'lastName',
+                           'gender', 'level']]
 
     assert isinstance(user_df, pd.DataFrame)
 
@@ -109,7 +116,8 @@ def process_log_file(cur, filepath):
     # insert songplay records
     for index, row in df_songplays.iterrows():
 
-        cur.execute(song_select_artist_song_ids, (row.song, row.artist, row.length))
+        cur.execute(song_select_artist_song_ids,
+                    (row.song, row.artist, row.length))
         results = cur.fetchone()
 
         if results:
@@ -119,17 +127,17 @@ def process_log_file(cur, filepath):
             song_id = None
             artist_id = None
 
-        songplay_data = (row.ts, row.userId, row.level, song_id, artist_id, row.sessionId, row.location, row.userAgent)
+        songplay_data = (row.ts, row.userId, row.level, song_id, artist_id,
+                         row.sessionId, row.location, row.userAgent)
         cur.execute(songplay_table_insert, songplay_data)
 
 
 def process_data(cur, conn, filepath, func):
     """
     Iterates through all the directories and files found under the provided
-    `filepath` parametr and passes the individual files in the folder to the 
+    `filepath` parametr and passes the individual files in the folder to the
     function that is passed in via the `func` paramater.
-    
-    
+
     Paramters:
     cur (psycopg2.cursor()) - cursor of the (Postgres) `sparkifydb` db
     conn (psycopg2.connect()) - connection to the (Postgres) `sparkifydb` db
@@ -143,7 +151,7 @@ def process_data(cur, conn, filepath, func):
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
-        files = glob.glob(os.path.join(root,'*.json'))
+        files = glob.glob(os.path.join(root, '*.json'))
 
         # Order files by modified date - https://stackoverflow.com/a/168424
         # (So more recently modified files will show up later in the list.)
@@ -152,7 +160,7 @@ def process_data(cur, conn, filepath, func):
 
         files.sort(key=lambda x: os.path.getmtime(x))
 
-        for f in files :
+        for f in files:
             all_files.append(os.path.abspath(f))
 
     # get total number of files found
@@ -170,8 +178,9 @@ def main():
     # DB connection error handling code adapted from Udacity exercises.
 
     try:
-        conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
-    except psycopg2.Error as error: 
+        conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student\
+                                 password=student")
+    except psycopg2.Error as error:
         print("Error: Could not make connection to the Postgres database.")
         print(error)
 
