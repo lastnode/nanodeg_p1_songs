@@ -2,16 +2,18 @@ import os
 import glob
 import psycopg2
 import numpy as np
-from sql_queries import *
 import pandas as pd
 
-# Import some psycopg2 extensions so that we don't get numpy type errors like this when inserting into Postgres:
-# > can't adapt type 'numpy.int64'
+from sql_queries import *
+
+# Import some psycopg2 extensions so that we don't get numpy type errors:
+# > can't adapt type 'numpy.int64' — when inserting data into Postgres.
 # Via this StackOverflow answer - https://stackoverflow.com/a/56766135
+
 from psycopg2.extensions import register_adapter, AsIs
 psycopg2.extensions.register_adapter(np.int64, psycopg2._psycopg.AsIs)
 
-## Database connection error handling code adapted from Udacity Data Engineering Nano Degree exercises.
+# DB connection error handling code adapted from Udacity exercises.
 
 try:
     conn = psycopg2.connect("host=127.0.0.1 dbname=studentdb user=student password=student")
@@ -21,9 +23,10 @@ except psycopg2.Error as error:
 
 try:
     cur = conn.cursor()
-except psycopg2.Error as error: 
+except psycopg2.Error as error:
     print("Error: Could not get cursor.")
     print(error)
+
 
 def process_song_file(cur, filepath):
     # open song file
@@ -33,7 +36,7 @@ def process_song_file(cur, filepath):
     song_data = df[['song_id', 'title', 'artist_id', 'year', 'duration']].iloc[0].tolist()
     assert isinstance(song_data, list)
     cur.execute(song_table_insert, song_data)
-    
+
     # insert artist record
     artist_data = df[['artist_id','artist_name','artist_location','artist_latitude','artist_longitude']].iloc[0].tolist()
     assert isinstance(artist_data, list)
@@ -57,7 +60,7 @@ def process_log_file(cur, filepath):
     df_nextsong['ts'] = pd.to_datetime(df_nextsong['ts'], unit='ms')
 
     print(df_nextsong['ts'])
-    
+
     # insert time data records
     time_data = [df_nextsong['ts'], df_nextsong['ts'].dt.hour, df_nextsong['ts'].dt.day, df_nextsong['ts'].dt.weekofyear, df_nextsong['ts'].dt.month, df_nextsong['ts'].dt.year, df_nextsong['ts'].dt.weekday]
 
@@ -93,18 +96,18 @@ def process_log_file(cur, filepath):
 
         cur.execute(song_select_artist_song_ids, (row.song, row.artist, row.length))
         results = cur.fetchone()
-                
+
         if results:
             song_id, artist_id = results
 
         else: 
             song_id = None
             artist_id = None
-        
+
         songplay_data = (row.ts, row.userId, row.level, song_id, artist_id, row.sessionId, row.location, row.userAgent)
         cur.execute(songplay_table_insert, songplay_data)
         conn.commit()
-        
+
 
 def process_data(cur, conn, filepath, func):
     # get all files matching extension from directory
@@ -118,7 +121,7 @@ def process_data(cur, conn, filepath, func):
         assert isinstance(files, list)
 
         files.sort(key=lambda x: os.path.getmtime(x))
-        
+
         for f in files :
             all_files.append(os.path.abspath(f))
 
