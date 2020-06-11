@@ -99,7 +99,7 @@ PRIMARY KEY (start_time))
 ## Normalization and Error-checking
 
 ### Postgres UPSERT
-This schema is in 2nd Normal Form. However, the source data are in denormalized datasets (`.json` log files). Thus, the `etl.py` script uses [Postgres' _UPSERT_ function](https://wiki.postgresql.org/wiki/UPSERT) (`ON CONFLICT (column_name) DO UPDATE SET`) to only UPDATE (and **not** INSERT) rows with newer information if the row being inserted matches each dimension table's primary key. 
+This database schema is designed to conform to [Second Normal Form](https://en.wikipedia.org/wiki/Second_normal_form). However, the source data are in denormalized datasets (`.json` log files). Thus, the `etl.py` script uses [Postgres' _UPSERT_ function](https://wiki.postgresql.org/wiki/UPSERT) (`ON CONFLICT (column_name) DO UPDATE SET`) to only UPDATE (and **not** INSERT) rows with newer information if the row being inserted matches each dimension table's primary key. 
 
 The rationale behind this is that log and song file data that are read later via the `process_data` function are newer and therefore more accurate. Thus, if we find duplicate song information or log entries in them, we should update the relevant row in the database. In order to make sure that we're reading files in ascending order, based on their modified date, we've added this line to the `process_data` function:
 
