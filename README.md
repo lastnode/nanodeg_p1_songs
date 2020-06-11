@@ -19,9 +19,9 @@ This ETL project looks to collect and present user activity information for a fi
 
 In order to run these Python scripts, you will first need to install Python 3 on your computer, and then install the following Python modules via [pip](https://pypi.org/project/pip/) or [anaconda](https://www.anaconda.com/products/individual):
 
-[psycopg2](https://pypi.org/project/psycopg2/) - a PostgreSQL database adapter for Python.
-[Numpy](https://numpy.org/) - a math/science package for Python.
-[Pandas](https://pandas.pydata.org/) - a data analysis package for Python.
+- [psycopg2](https://pypi.org/project/psycopg2/) - a PostgreSQL database adapter for Python.
+- [Numpy](https://numpy.org/) - a math/science package for Python.
+- [Pandas](https://pandas.pydata.org/) - a data analysis package for Python.
 
 To install these via `pip` you can run:
 
