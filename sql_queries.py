@@ -1,3 +1,9 @@
+"""
+This module is loaded by `create_tables.py` and `etl.py`
+as it contains the SQL queries needed to create the tables
+necessary for this project, and insert data into them.
+"""
+
 # DROP TABLES
 
 songplay_table_drop = "DROP TABLE IF EXISTS songplay"
