@@ -112,6 +112,18 @@ Also, since we're reading `.json` files via pandas in `etl.py`, we we use Python
 
 # Example Queries 
 
+#### How many songs were started by free vs paid users?
+
+`select count(songplay_id), users.level from songplays inner join users on songplays.user_id = users.user_id group by 2;`
+
+```
+ count | level 
+-------+-------
+  1115 | free
+  5705 | paid
+(2 rows)
+```
+
 #### Which hour of the day are users starting to play the most songs?
 
 `select hour, count(songplay_id) from songplays inner join time on songplays.start_time = time.start_time group by hour order by 2 desc;`
