@@ -153,10 +153,10 @@ def process_data(cur, conn, filepath, func):
     for root, dirs, files in os.walk(filepath):
         files = glob.glob(os.path.join(root, '*.json'))
 
+        assert isinstance(files, list)
+
         # Order files by modified date - https://stackoverflow.com/a/168424
         # (So more recently modified files will show up later in the list.)
-
-        assert isinstance(files, list)
 
         files.sort(key=lambda x: os.path.getmtime(x))
 
