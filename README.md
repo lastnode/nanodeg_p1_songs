@@ -48,7 +48,7 @@ songplay_id serial,
 start_time timestamp references time(start_time),
 user_id int references users(user_id),
 level text,
-song_id text references songs(song_id), 
+song_id text references songs(song_id),
 artist_id text references artists(artist_id),
 session_id int,
 location text,
@@ -59,17 +59,17 @@ PRIMARY KEY (songplay_id))
 user_table_create = ("""CREATE TABLE users (
 user_id int,
 first_name text,
-last_name text, 
+last_name text,
 gender text,
 level text,
 PRIMARY KEY (user_id))
 """)
 
 song_table_create = ("""CREATE TABLE songs (
-song_id text, 
-title text, 
-artist_id text, 
-year int, 
+song_id text,
+title text,
+artist_id text,
+year int,
 duration double precision,
 PRIMARY KEY (song_id))
 """)
@@ -77,9 +77,9 @@ PRIMARY KEY (song_id))
 artist_table_create = ("""CREATE TABLE artists (
 artist_id text,
 name text,
-location text, 
-latitude double precision, 
-longitude double precision, 
+location text,
+latitude double precision,
+longitude double precision,
 PRIMARY KEY (artist_id))
 """)
 
