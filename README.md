@@ -114,41 +114,41 @@ Also, since we're reading `.json` files via pandas in `etl.py`, we we use Python
 
 #### Which hour of the day are users starting to play the most songs?
 
-`select hour, count(songplay_id) from songplays inner join time on songplays.start_time = time.start_time group by hour;`
+`select hour, count(songplay_id) from songplays inner join time on songplays.start_time = time.start_time group by hour order by 2;`
 
 ```
  hour | count 
 ------+-------
-    0 |   155
-    1 |   154
-    2 |   117
     3 |   109
+    2 |   117
     4 |   136
+    1 |   154
+    0 |   155
     5 |   162
-    6 |   183
     7 |   179
+    6 |   183
+   23 |   201
     8 |   207
+   22 |   217
     9 |   270
-   10 |   312
-   11 |   336
+   21 |   280
    12 |   308
+   10 |   312
    13 |   324
+   11 |   336
+   20 |   360
+   19 |   367
    14 |   432
    15 |   477
-   16 |   542
    17 |   494
    18 |   498
-   19 |   367
-   20 |   360
-   21 |   280
-   22 |   217
-   23 |   201
+   16 |   542
 (24 rows)
 ```
 
-#### Which 50 users have started listening to the most songs?
+#### Which 30 users have started listening to the most songs?
 
-`select user_id, count(songplay_id) from songplays group by user_id;`
+`select user_id, count(songplay_id) from songplays group by user_id order by 2 desc limit 30;`
 
 ```
  user_id | count 
@@ -168,8 +168,8 @@ Also, since we're reading `.json` files via pandas in `etl.py`, we we use Python
       85 |   179
       30 |   178
       25 |   169
-      42 |   140
       58 |   140
+      42 |   140
       26 |   114
       82 |    87
       72 |    72
@@ -182,38 +182,18 @@ Also, since we're reading `.json` files via pandas in `etl.py`, we we use Python
       70 |    33
       69 |    29
       10 |    28
-      54 |    27
-      83 |    27
-      92 |    27
        8 |    27
-      67 |    25
-      61 |    24
-       6 |    23
-      14 |    22
-      53 |    20
-      63 |    20
-      33 |    20
-     100 |    19
-      60 |    18
-      75 |    18
-      52 |    17
-      65 |    17
-       9 |    16
-      35 |    16
-      55 |    15
-      51 |    15
-      78 |    14
-(50 rows)
+(30 rows)
 
 ```
 
 
-#### What are the most popular user agents among users who have played songs?
+#### What are the 20 most popular user agents among users who have played songs?
 
-`select user_agent, count(songplay_id) from songplays group by user_agent order by count(songplay_id) desc;`
+`select user_agent, count(songplay_id) from songplays group by user_agent order by count(songplay_id) desc limit 20;`
 
 ```
-user_agent                                                                  | count 
+                                                                 user_agent                                                                  | count 
 ---------------------------------------------------------------------------------------------------------------------------------------------+-------
  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36"                  |   971
  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.78.2 (KHTML, like Gecko) Version/7.0.6 Safari/537.78.2"                     |   708
@@ -235,27 +215,7 @@ user_agent                                                                  | co
  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36"                   |    45
  Mozilla/5.0 (Windows NT 6.1; WOW64; rv:32.0) Gecko/20100101 Firefox/32.0                                                                    |    30
  "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36"                             |    27
- Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0                                                                           |    26
- "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.103 Safari/537.36"                             |    20
- "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/537.75.14"                   |    18
- Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko                                                                        |    16
- "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.102 Safari/537.36"                             |    15
- "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D201 Safari/9537.53" |    11
- "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36"                  |    10
- "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/538.46 (KHTML, like Gecko) Version/8.0 Safari/538.46"                            |    10
- "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36"                             |    10
- Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)                                                                     |     9
- "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36"                                    |     9
- Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:31.0) Gecko/20100101 Firefox/31.0                                                           |     9
- "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.59.10 (KHTML, like Gecko) Version/5.1.9 Safari/534.59.10"                   |     8
- "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36"                  |     5
- "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/537.75.14"                   |     5
- Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0                                                                        |     3
- Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)                                                                             |     2
- "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36"                              |     2
- "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36"                             |     2
- Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko                                                                        |     1
-(40 rows)                           |     1
+(20 rows)
 ```
 
 
