@@ -114,35 +114,35 @@ Also, since we're reading `.json` files via pandas in `etl.py`, we we use Python
 
 #### Which hour of the day are users starting to play the most songs?
 
-`select hour, count(songplay_id) from songplays inner join time on songplays.start_time = time.start_time group by hour order by 2;`
+`select hour, count(songplay_id) from songplays inner join time on songplays.start_time = time.start_time group by hour order by 2 desc;`
 
 ```
  hour | count 
 ------+-------
-    3 |   109
-    2 |   117
-    4 |   136
-    1 |   154
-    0 |   155
-    5 |   162
-    7 |   179
-    6 |   183
-   23 |   201
-    8 |   207
-   22 |   217
-    9 |   270
-   21 |   280
-   12 |   308
-   10 |   312
-   13 |   324
-   11 |   336
-   20 |   360
-   19 |   367
-   14 |   432
-   15 |   477
-   17 |   494
-   18 |   498
    16 |   542
+   18 |   498
+   17 |   494
+   15 |   477
+   14 |   432
+   19 |   367
+   20 |   360
+   11 |   336
+   13 |   324
+   10 |   312
+   12 |   308
+   21 |   280
+    9 |   270
+   22 |   217
+    8 |   207
+   23 |   201
+    6 |   183
+    7 |   179
+    5 |   162
+    0 |   155
+    1 |   154
+    4 |   136
+    2 |   117
+    3 |   109
 (24 rows)
 ```
 
